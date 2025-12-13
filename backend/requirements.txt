@@ -1,0 +1,33 @@
+# Core API
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+
+# LangChain core
+langchain
+langchain-community
+langchain-text-splitters
+
+# Gemini (LLM + Embeddings)
+langchain-google-genai
+google-generativeai
+
+# Vector DB
+qdrant-client
+langchain-qdrant
+
+# PDF parsing
+pypdf
+
+# Database
+sqlalchemy
+alembic
+psycopg2-binary
+asyncpg
+
+# HTTP
+httpx
+
+# File upload
+python-multipart

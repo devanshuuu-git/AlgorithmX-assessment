@@ -1,0 +1,22 @@
+# General
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+.vscode/
+.idea/
+
+# Environment Variables
+.env
+
+# Virtual Environments
+venv/
+env/
+backend-venv/
+frontend-venv/
+
+# Docker
+docker-data/
+
+# Streamlit
+.streamlit/
