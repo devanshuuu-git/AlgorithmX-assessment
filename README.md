@@ -1,133 +1,151 @@
-# PDF RAG Application
+# 📚 PDF‑based Retrieval‑Augmented Generation (RAG)
 
-This is a Retrieval-Augmented Generation (RAG) application designed to process PDF documents and answer questions based on their content. It leverages Google's Gemini models for generation and embeddings, Qdrant for vector storage, and PostgreSQL for metadata management. The frontend is built with Streamlit, and the backend is powered by FastAPI.
+A powerful **Retrieval-Augmented Generation (RAG)** system that allows users to upload PDF documents and ask questions about their content. Powered by **Google Gemini**, **Qdrant**, and **FastAPI**.
 
-## 🚀 Tech Stack
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.31.0-FF4B4B)
+![Gemini](https://img.shields.io/badge/AI-Gemini-8E75B2)
 
-- **Frontend:** Streamlit
-- **Backend:** FastAPI (Python)
-- **LLM & Embeddings:** Google Gemini
-- **Vector Database:** Qdrant
-- **Database:** PostgreSQL
-- **Infrastructure:** Docker & Docker Compose
+## 🚀 Features
+
+- **📄 PDF Ingestion:** Upload and process PDF documents automatically.
+- **🧠 Semantic Search:** Uses high-performance vector embeddings to find relevant context.
+- **🤖 Generative AI:** Generates accurate answers using Google's Gemini models.
+- **⚡ Real-time:** Fast retrieval and response generation.
+- **🐳 Dockerized:** Easy infrastructure setup with Docker Compose.
 
 ## 📂 Project Structure
 
-```
+The project is organized into a backend API and a frontend user interface.
+
+```plaintext
 .
-├── backend/                # FastAPI backend application
-│   ├── app/                # Application source code
-│   └── requirements.txt    # Backend dependencies
-├── frontend/               # Streamlit frontend application
-│   ├── streamlit_app.py    # Main Streamlit app
-│   └── requirements.txt    # Frontend dependencies
-├── docker-compose.infra.yml # Docker Compose for infrastructure (Postgres, Qdrant)
-├── starter.py              # Helper script to start the application
-├── .env.example            # Example environment variables
-└── README.md               # Project documentation
+├── backend/                    # 🐍 FastAPI Backend
+│   ├── app/
+│   │   ├── db/                 # Database configuration & models
+│   │   │   ├── crud.py         # Database CRUD operations
+│   │   │   ├── init_db.py      # Database initialization
+│   │   │   ├── models.py       # SQLAlchemy models
+│   │   │   └── session.py      # Database session management
+│   │   ├── routes/             # API Endpoints
+│   │   │   ├── chat.py         # Chat/Question answering endpoints
+│   │   │   └── ingest.py       # Document upload endpoints
+│   │   ├── schemas/            # Pydantic Data Schemas
+│   │   │   ├── chat.py         # Chat request/response schemas
+│   │   │   └── ingest.py       # Ingestion schemas
+│   │   ├── services/           # Core Business Logic
+│   │   │   ├── llm.py          # Gemini LLM integration
+│   │   │   ├── pdf_ingest.py   # PDF parsing logic
+│   │   │   └── retriever.py    # Qdrant vector search logic
+│   │   ├── utils/              # Helper Utilities
+│   │   │   ├── logger.py       # Logging configuration
+│   │   │   ├── text_splitter.py# Text chunking utilities
+│   │   │   └── timing.py       # Performance timing decorators
+│   │   ├── config.py           # Application configuration
+│   │   └── main.py             # App entry point
+│   └── requirements.txt        # Backend dependencies
+│
+├── frontend/                   # 🖥️ Streamlit Frontend
+│   ├── api.py                  # API client for communicating with backend
+│   ├── streamlit_app.py        # Main Streamlit application UI
+│   └── requirements.txt        # Frontend dependencies
+│
+├── docker-compose.infra.yml    # 🐳 Infrastructure (Postgres, Qdrant)
+├── starter.py                  # 🚀 Helper script to launch everything
+├── .env.example                # 🔐 Environment variable template
+└── README.md                   # 📖 Project documentation
 ```
 
-## 🛠️ Setup & Installation
+## 🛠️ Tech Stack
 
-### Prerequisites
+- **Backend:** FastAPI, SQLAlchemy, Pydantic
+- **Frontend:** Streamlit
+- **AI/LLM:** Google Gemini (via `google-generativeai`)
+- **Vector DB:** Qdrant
+- **Database:** PostgreSQL
+- **Infrastructure:** Docker, Docker Compose
 
-- [Python 3.10+](https://www.python.org/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+## ⚡ Quick Start
 
-### 1. Clone the Repository
+### 1. Prerequisites
+
+- Python 3.10+
+- Docker & Docker Compose
+
+### 2. Clone & Configure
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
-```
+git clone https://github.com/devanshuuu-git/AlgorithmX-assessment.git
+cd AlgorithmX-assessment
 
-### 2. Environment Configuration
-
-Create a `.env` file in the root directory by copying the example file:
-
-```bash
+# Create .env file
 cp .env.example .env
 ```
 
-Open `.env` and update the `GEMINI_API_KEY` with your actual API key.
+**Important:** Open `.env` and add your `GEMINI_API_KEY`.
 
-### 3. Start Infrastructure
+### 3. Run with One Command
 
-Start the required databases (PostgreSQL and Qdrant) using Docker Compose:
-
-```bash
-docker-compose -f docker-compose.infra.yml up -d
-```
-
-### 4. Install Dependencies
-
-It is recommended to use virtual environments for both backend and frontend.
-
-**Backend:**
-
-```bash
-# Create virtual environment
-python -m venv backend-venv
-
-# Activate (Windows)
-.\backend-venv\Scripts\activate
-# Activate (Mac/Linux)
-# source backend-venv/bin/activate
-
-# Install dependencies
-pip install -r backend/requirements.txt
-```
-
-**Frontend:**
-
-```bash
-# Create virtual environment
-python -m venv frontend-venv
-
-# Activate (Windows)
-.\frontend-venv\Scripts\activate
-# Activate (Mac/Linux)
-# source frontend-venv/bin/activate
-
-# Install dependencies
-pip install -r frontend/requirements.txt
-```
-
-## ▶️ Running the Application
-
-You can use the provided `starter.py` script or run services manually.
-
-### Option A: Using Starter Script
+We provide a starter script to set up the infrastructure and run both services.
 
 ```bash
 python starter.py
 ```
 
-### Option B: Manual Start
+This will:
+1. Start Postgres & Qdrant containers.
+2. Launch the FastAPI backend (port 8000).
+3. Launch the Streamlit frontend (port 8501).
 
-**1. Start Backend:**
+---
 
+## 🔧 Manual Setup (Optional)
+
+If you prefer running services individually:
+
+**1. Start Infrastructure:**
 ```bash
-# Ensure backend-venv is activated
-cd backend
-uvicorn app.main:app --reload --port 8000
+docker-compose -f docker-compose.infra.yml up -d
 ```
 
-**2. Start Frontend:**
-
+**2. Backend Setup:**
 ```bash
-# Ensure frontend-venv is activated (in a new terminal)
+cd backend
+python -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Mac/Linux:
+# source venv/bin/activate
+
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+**3. Frontend Setup:**
+```bash
 cd frontend
+python -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Mac/Linux:
+# source venv/bin/activate
+
+pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-## 📝 Usage
+## 📝 Usage Guide
 
-1.  Open the Streamlit app in your browser (usually `http://localhost:8501`).
-2.  Upload a PDF document.
-3.  Ask questions related to the document content.
-4.  The system will retrieve relevant context and generate an answer using Gemini.
+1.  **Access the App:** Go to `http://localhost:8501`.
+2.  **Upload:** Use the sidebar to upload a PDF file.
+3.  **Process:** Click "Process PDF" to ingest the document into the vector database.
+4.  **Ask:** Type your question in the chat input. The AI will answer based on the PDF content.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'Add some amazing feature'`).
+4. Push to the branch (`git push origin feature/amazing-feature`).
+5. Open a Pull Request.
