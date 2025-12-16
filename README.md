@@ -72,7 +72,7 @@ docker compose logs -f
 
 ## Settings
 
-![Settings Interface](assets/Settings_section.png)
+![Settings Interface](assets/Settings_Section.png)
 
 ---
 
