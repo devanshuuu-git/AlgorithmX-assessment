@@ -1,151 +1,138 @@
-# 📚 PDF‑based Retrieval‑Augmented Generation (RAG)
+# PDF RAG Application 📚
 
-A powerful **Retrieval-Augmented Generation (RAG)** system that allows users to upload PDF documents and ask questions about their content. Powered by **Google Gemini**, **Qdrant**, and **FastAPI**.
-
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0-009688)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.31.0-FF4B4B)
-![Gemini](https://img.shields.io/badge/AI-Gemini-8E75B2)
-
-## 🚀 Features
-
-- **📄 PDF Ingestion:** Upload and process PDF documents automatically.
-- **🧠 Semantic Search:** Uses high-performance vector embeddings to find relevant context.
-- **🤖 Generative AI:** Generates accurate answers using Google's Gemini models.
-- **⚡ Real-time:** Fast retrieval and response generation.
-- **🐳 Dockerized:** Easy infrastructure setup with Docker Compose.
-
-## 📂 Project Structure
-
-The project is organized into a backend API and a frontend user interface.
-
-```plaintext
-.
-├── backend/                    # 🐍 FastAPI Backend
-│   ├── app/
-│   │   ├── db/                 # Database configuration & models
-│   │   │   ├── crud.py         # Database CRUD operations
-│   │   │   ├── init_db.py      # Database initialization
-│   │   │   ├── models.py       # SQLAlchemy models
-│   │   │   └── session.py      # Database session management
-│   │   ├── routes/             # API Endpoints
-│   │   │   ├── chat.py         # Chat/Question answering endpoints
-│   │   │   └── ingest.py       # Document upload endpoints
-│   │   ├── schemas/            # Pydantic Data Schemas
-│   │   │   ├── chat.py         # Chat request/response schemas
-│   │   │   └── ingest.py       # Ingestion schemas
-│   │   ├── services/           # Core Business Logic
-│   │   │   ├── llm.py          # Gemini LLM integration
-│   │   │   ├── pdf_ingest.py   # PDF parsing logic
-│   │   │   └── retriever.py    # Qdrant vector search logic
-│   │   ├── utils/              # Helper Utilities
-│   │   │   ├── logger.py       # Logging configuration
-│   │   │   ├── text_splitter.py# Text chunking utilities
-│   │   │   └── timing.py       # Performance timing decorators
-│   │   ├── config.py           # Application configuration
-│   │   └── main.py             # App entry point
-│   └── requirements.txt        # Backend dependencies
-│
-├── frontend/                   # 🖥️ Streamlit Frontend
-│   ├── api.py                  # API client for communicating with backend
-│   ├── streamlit_app.py        # Main Streamlit application UI
-│   └── requirements.txt        # Frontend dependencies
-│
-├── docker-compose.infra.yml    # 🐳 Infrastructure (Postgres, Qdrant)
-├── starter.py                  # 🚀 Helper script to launch everything
-├── .env.example                # 🔐 Environment variable template
-└── README.md                   # 📖 Project documentation
-```
-
-## 🛠️ Tech Stack
-
-- **Backend:** FastAPI, SQLAlchemy, Pydantic
-- **Frontend:** Streamlit
-- **AI/LLM:** Google Gemini (via `google-generativeai`)
-- **Vector DB:** Qdrant
-- **Database:** PostgreSQL
-- **Infrastructure:** Docker, Docker Compose
-
-## ⚡ Quick Start
-
-### 1. Prerequisites
-
-- Python 3.10+
-- Docker & Docker Compose
-
-### 2. Clone & Configure
-
-```bash
-git clone https://github.com/devanshuuu-git/AlgorithmX-assessment.git
-cd AlgorithmX-assessment
-
-# Create .env file
-cp .env.example .env
-```
-
-**Important:** Open `.env` and add your `GEMINI_API_KEY`.
-
-### 3. Run with One Command
-
-We provide a starter script to set up the infrastructure and run both services.
-
-```bash
-python starter.py
-```
-
-This will:
-1. Start Postgres & Qdrant containers.
-2. Launch the FastAPI backend (port 8000).
-3. Launch the Streamlit frontend (port 8501).
+A production-ready Retrieval-Augmented Generation (RAG) application for chatting with PDF documents. Built with **FastAPI**, **Streamlit**, **LangChain**, **Qdrant**, and **Google Gemini**.
 
 ---
 
-## 🔧 Manual Setup (Optional)
+## 🚀 Features
 
-If you prefer running services individually:
+- **PDF Ingestion**: Upload and index PDF documents with automatic chunking.
+- **Vector Search**: High-performance similarity search using Qdrant.
+- **AI Chat**: Chat with your documents using Google's Gemini 1.5 Flash model.
+- **Citations**: Every answer includes precise citations with page numbers and source files.
+- **Session Management**: Create multiple chat sessions and switch between them.
+- **Persistent History**: All chats and documents are stored in PostgreSQL.
+- **Clean Architecture**: Separation of concerns with distinct Indexing and Chat services.
 
-**1. Start Infrastructure:**
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: FastAPI, Python 3.11
+- **Frontend**: Streamlit
+- **Database**: PostgreSQL (Metadata), Qdrant (Vectors)
+- **LLM & Embeddings**: Google Gemini (via LangChain)
+- **Infrastructure**: Docker Compose
+
+---
+
+## 🏁 Quick Start
+
+### Prerequisites
+- Docker & Docker Compose
+- Google Gemini API Key
+
+### 1. Clone & Configure
 ```bash
-docker-compose -f docker-compose.infra.yml up -d
+# Clone the repository
+git clone <repo-url>
+cd PDF_BEST_PRACTICE
+
+# Create .env file
+cp .env.example .env
+
+# Edit .env and add your API key
+# GEMINI_API_KEY=your_key_here
 ```
 
-**2. Backend Setup:**
+### 2. Run with Docker
 ```bash
-cd backend
-python -m venv venv
-# Windows:
-.\venv\Scripts\activate
-# Mac/Linux:
-# source venv/bin/activate
+# Start all services
+docker compose build up -d
 
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+# Check logs
+docker compose logs -f
 ```
 
-**3. Frontend Setup:**
-```bash
-cd frontend
-python -m venv venv
-# Windows:
-.\venv\Scripts\activate
-# Mac/Linux:
-# source venv/bin/activate
+### 3. Access the App
+- **Frontend UI**: http://localhost:8501
+- **Backend API**: http://localhost:8000/docs
+- **Qdrant Dashboard**: http://localhost:6333/dashboard
 
-pip install -r requirements.txt
-streamlit run streamlit_app.py
+---
+
+## 📸 Screenshots
+
+
+### Chat Interface
+![Chat Interface](assets/Chat_Interface.png)
+
+### PDF Upload
+![PDF upload Interface](assets/Upload_Section.png)
+
+## Settings
+
+![Settings Interface](assets/Settings_section.png)
+
+---
+
+## 🏗️ Architecture
+
+### System Overview
+
+```mermaid
+graph LR
+    %% Styles
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000;
+    classDef backend fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000;
+    classDef db fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000;
+    classDef external fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000;
+    classDef user fill:#ffffff,stroke:#333,stroke-width:2px,color:#000;
+
+    User([👤 User]) -->|Interacts| FE[💻 Streamlit Frontend]
+    
+    subgraph Docker["🐳 Docker Compose Network"]
+        direction LR
+        FE -->|HTTP / JSON| BE[⚙️ FastAPI Backend]
+        
+        BE <-->|Metadata| DB[(🐘 PostgreSQL)]
+        BE <-->|Vectors| VecDB[(🚀 Qdrant)]
+    end
+    
+    BE <-->|Embeddings & Chat| LLM[✨ Google Gemini API]
+
+    %% Apply Styles
+    class User user;
+    class FE frontend;
+    class BE backend;
+    class DB,VecDB db;
+    class LLM external;
 ```
 
-## 📝 Usage Guide
+### Services
+1.  **Indexing Service** (`indexing_service.py`): Handles PDF loading, splitting, and indexing.
+2.  **Chat Service** (`chat_service.py`): Handles retrieval and generation.
 
-1.  **Access the App:** Go to `http://localhost:8501`.
-2.  **Upload:** Use the sidebar to upload a PDF file.
-3.  **Process:** Click "Process PDF" to ingest the document into the vector database.
-4.  **Ask:** Type your question in the chat input. The AI will answer based on the PDF content.
+### Database Schema
+- **users**: User accounts
+- **sessions**: Chat sessions
+- **documents**: PDF metadata
+- **messages**: Chat history
+- **metrics**: Performance tracking
 
-## 🤝 Contributing
+---
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add some amazing feature'`).
-4. Push to the branch (`git push origin feature/amazing-feature`).
-5. Open a Pull Request.
+## 🧪 Testing
+
+### Verify Services
+```bash
+docker compose ps
+```
+
+### Check Backend Health
+```bash
+curl http://localhost:8000/health
+```
+
+---
+
