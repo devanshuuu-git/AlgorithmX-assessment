@@ -111,7 +111,8 @@ graph LR
 
 ### Services
 1.  **Indexing Service** (`indexing_service.py`): Handles PDF loading, splitting, and indexing.
-2.  **Chat Service** (`chat_service.py`): Handles retrieval and generation.
+2.  **Retrieval Service** (`retrieval_service.py`): Handles semantic search and context retrieval.
+3.  **LLM Service** (`llm_service.py`): Handles prompt construction and Gemini API interaction.
 
 ### Database Schema
 - **users**: User accounts
