@@ -8,11 +8,11 @@ A production-ready Retrieval-Augmented Generation (RAG) application for chatting
 
 - **PDF Ingestion**: Upload and index PDF documents with automatic chunking.
 - **Vector Search**: High-performance similarity search using Qdrant.
-- **AI Chat**: Chat with your documents using Google's Gemini 1.5 Flash model.
+- **AI Chat**: Chat with your documents using Google's Gemini 2.5 Flash/pro models.
 - **Citations**: Every answer includes precise citations with page numbers and source files.
 - **Session Management**: Create multiple chat sessions and switch between them.
 - **Persistent History**: All chats and documents are stored in PostgreSQL.
-- **Clean Architecture**: Separation of concerns with distinct Indexing and Chat services.
+- **Clean Architecture**: Separation of concerns with distinct Indexing, Retrieval and LLM services.
 
 ---
 

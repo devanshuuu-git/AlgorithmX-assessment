@@ -29,8 +29,6 @@ class RetrievalService:
         doc_filename: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """
-        Perform similarity search with optional filtering.
-        
         Args:
             query: The user's search query.
             top_k: Number of chunks to retrieve.
@@ -53,7 +51,7 @@ class RetrievalService:
                 ]
             )
 
-        # Use LangChain's Qdrant wrapper for convenience, but we could use client directly too
+        
         vector_store = QdrantVectorStore.from_existing_collection(
             embedding=self.embeddings,
             collection_name=self.collection_name,

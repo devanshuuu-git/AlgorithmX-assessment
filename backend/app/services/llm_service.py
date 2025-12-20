@@ -22,7 +22,7 @@ class LLMService:
         query: str, 
         session_id: int,
         db: AsyncSession,
-        model_name: str = "gemini-1.5-flash",
+        model_name: str = "gemini-2.5-flash",
         top_k: int = 4,
         doc_filter: Optional[str] = None
     ) -> Dict[str, Any]:
@@ -49,9 +49,8 @@ class LLMService:
             doc_filename=doc_filter
         )
         
-        # 2. Check if context found (if strict mode enabled - logic can be added here)
+        # 2. Check if context found 
         if not context_chunks:
-            # We could implement "only answer if sources found" logic here
             pass
 
         # 3. Construct Prompt

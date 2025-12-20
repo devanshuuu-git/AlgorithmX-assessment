@@ -45,11 +45,11 @@ class IndexingService:
         Returns:
             int: Number of chunks indexed.
         """
-        print(f"📄 Loading PDF: {file_path}")
+        print(f"Loading PDF: {file_path}")
         loader = PyPDFLoader(file_path)
         docs = loader.load()
         
-        print(f"✂️ Splitting {len(docs)} pages...")
+        print(f"Splitting {len(docs)} pages...")
         chunks = self.text_splitter.split_documents(docs)
         
         # Add metadata
@@ -57,14 +57,14 @@ class IndexingService:
         for chunk in chunks:
             chunk.metadata["source"] = filename
             
-        print(f"💾 Indexing {len(chunks)} chunks to Qdrant...")
+        print(f"Indexing {len(chunks)} chunks to Qdrant...")
         QdrantVectorStore.from_documents(
             documents=chunks,
             embedding=self.embeddings,
             url=self.qdrant_url,
             collection_name=self.collection_name
         )
-        print("✅ Indexing done!")
+        print("Indexing done!")
         return len(chunks)
 
 # Singleton instance
